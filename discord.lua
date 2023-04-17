@@ -280,16 +280,16 @@ countries = {
 
 -- Discord flags -- 
 flags = {
-[0]	=":united_nations:",
-[1]	=":united_nations:",
-[2]	=":flag_eu:",
-[3]	=":flag_ad:",
-[4]	=":flag_ae:",
-[5]	=":flag-af:",
-[6]	=":flag_ag:",
-[7]	=":flag_ai:",
-[8]	=":flag_al:",
-[9]	=":flag_am:",
+[0]		=":united_nations:",
+[1]		=":united_nations:",
+[2]		=":flag_eu:",
+[3]		=":flag_ad:",
+[4]		=":flag_ae:",
+[5]		=":flag-af:",
+[6]		=":flag_ag:",
+[7]		=":flag_ai:",
+[8]		=":flag_al:",
+[9]		=":flag_am:",
 [10]	=":flag_bq:",
 [11]	=":flag_ao:",
 [12]	=":flag_aq:",
@@ -574,7 +574,6 @@ function et_InitGame()
 		{ \z 
 		\"username\": \"MAP UPDATE\", \z
 		\"content\": \"'..mention..'\", \z
-		\"allowed_mentions\": {\"roles\": [\"1042049815611183104\"]}, \z
 		\"embeds\": \z
 		[ { \z
 		\"description\": \":flag_fr: **'..servername..' - '..total..'/'..maxclients..'**\", \z
@@ -694,7 +693,6 @@ if cmd == "say" then
   {\z
   \"username\": \"'..name..'\", \z
   \"content\": \"'..msg..'\", \z
-  \"allowed_mentions\": {\"roles\": [\"1042049815611183104\"]}\z
   }\' \z
   \"'..webhook_announces..'\"')
   end
