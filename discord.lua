@@ -9,9 +9,9 @@ version = "0.9.2"
 require "io"
 
 -- Monitor variables
-serverip = ""			-- IP or domain name to show
-port = ""				-- Port to show
-web_mapshots = "https://healthesquad.com/ET/png/" 		-- URL of map png map screenshots (ex: "https://myserver.com/png/")
+serverip = ""						-- IP or domain name to show
+port = ""						-- Port to show
+web_mapshots = "https://healthesquad.com/ET/png/" 	-- URL of map png map screenshots (ex: "https://myserver.com/png/")
 
 -- Announces variables
 webhook_announces = ""	-- Webhook URL channel for announces (ex: "https://discord.com/api/webhooks/blablablabla/1234567894564545")
@@ -280,16 +280,16 @@ countries = {
 
 -- Discord flags -- 
 flags = {
-[0]		=":united_nations:",
-[1]		=":united_nations:",
-[2]		=":flag_eu:",
-[3]		=":flag_ad:",
-[4]		=":flag_ae:",
-[5]		=":flag-af:",
-[6]		=":flag_ag:",
-[7]		=":flag_ai:",
-[8]		=":flag_al:",
-[9]		=":flag_am:",
+[0]	=":united_nations:",
+[1]	=":united_nations:",
+[2]	=":flag_eu:",
+[3]	=":flag_ad:",
+[4]	=":flag_ae:",
+[5]	=":flag-af:",
+[6]	=":flag_ag:",
+[7]	=":flag_ai:",
+[8]	=":flag_al:",
+[9]	=":flag_am:",
 [10]	=":flag_bq:",
 [11]	=":flag_ao:",
 [12]	=":flag_aq:",
@@ -604,6 +604,7 @@ function et_InitGame()
 		} \z
 		] }] }\' \z 
 		\"'..webhook_monitor..'\"')
+----------------------------------------------- cURL COMMAND --------------------------------------------
 		tbl = {}
 	end
 end
@@ -640,7 +641,7 @@ function et_ClientDisconnect(_clientNum)
 			}\' \z
 			\"'..webhook_announces..'\"')
 		end
-	et.trap_SendConsoleCommand( et.EXEC_APPEND, "unset "..clientname.."" )					-- Clean cvars set by line 669
+	et.trap_SendConsoleCommand( et.EXEC_APPEND, "unset "..clientname.."" )			-- Clean cvars set by line 669
 end
 
 -- Announce Team changes--
@@ -652,7 +653,7 @@ function et_ClientSpawn(_clientNum, revived, teamChange)
 		local test = tonumber(et.trap_Cvar_Get(clientname))
 		local class = et.gentity_get(_clientNum,"sess.latchPlayerType")
 		
-		if team 	==	test then return end												--Check if already announced or not(line647)
+		if team 	==	test then return end					--Check if already announced or not
 		
 		if class 	== 	0 then class = "a Soldier" end
 		if class 	== 	1 then class = "a Medic" end
@@ -670,8 +671,8 @@ function et_ClientSpawn(_clientNum, revived, teamChange)
 		\"content\": \"'..msg..'\"\z
 		}\' \z
 		\"'..webhook_announces..'\"')
---		et.trap_Cvar_Set(clientname, team)													---#Fixme--- Using et.trap_SendConsoleCommand
-		et.trap_SendConsoleCommand( et.EXEC_APPEND, "set "..clientname.." "..team.."" )		---#Fixme--- because lua cvar can't be unset.
+--		et.trap_Cvar_Set(clientname, team)						---#Fixme--- Using et.trap_SendConsoleCommand
+		et.trap_SendConsoleCommand( et.EXEC_APPEND, "set "..clientname.." "..team.."" )	---#Fixme--- because lua cvar can't be unset.
 	end
 end
 
@@ -686,7 +687,7 @@ if cmd == "say" then
 		msg 	= string.gsub(msg,[[\u{(%d+)}]],utf8.char)
 		msg 	= string.gsub(msg, "'", "\u{2019}")
 		msg 	= string.gsub(msg, "\\", ".")
-   end	
+   end
   io.popen('curl \z
   -H \"Content-Type: application/json\" \z
   -d \'\z
@@ -698,7 +699,7 @@ if cmd == "say" then
   \"'..webhook_announces..'\"')
   end
  end
- 
+
 --Discord chat prefix--
 function et_ConsoleCommand(command,message)
 	if et.trap_Argv(0) 	== "disc" then
@@ -708,7 +709,7 @@ function et_ConsoleCommand(command,message)
 		end
 		return 0
 	end
-	
+
 	if et.trap_Argv(0) 	== "nopref" then
 		local message 	= et.trap_Argv(1)
 		for _, line in ipairs(split(message, 60)) do
@@ -722,8 +723,8 @@ end
 function split(str, max_line_length)
    lines = {}
    local line
-   str:gsub('(%s*)(%S+)', 
-      function(spc, word) 
+   str:gsub('(%s*)(%S+)',
+      function(spc, word)
          if not line or #line + #spc + #word > max_line_length then
             table.insert(lines, line)
             line = word
@@ -744,8 +745,8 @@ end
 
 function isOmnibot(_clientNum)
 local guid = et.Info_ValueForKey(et.trap_GetUserinfo(_clientNum), "cl_guid")
-	if string.match(guid, "OMNIBOT") 
-	then return 1 
+	if string.match(guid, "OMNIBOT")
+	then return 1
 	else return 0
 	end
 end
