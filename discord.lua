@@ -648,6 +648,8 @@ function et_ClientSpawn(_clientNum, revived, teamChange)
 	if isOmnibot(_clientNum) 	== 1 then return
 	else
 		local clientname = et.Q_CleanStr(et.gentity_get(_clientNum ,"pers.netname"))
+		local clientname = clientname:gsub("%s+", "_")
+		local clientname = string.gsub(clientname, "%s+", "_")
 		local team = et.gentity_get(_clientNum,"sess.sessionTeam")
 		local test = tonumber(et.trap_Cvar_Get(clientname))
 		local class = et.gentity_get(_clientNum,"sess.latchPlayerType")
