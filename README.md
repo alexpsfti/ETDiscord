@@ -1,7 +1,9 @@
 # ETDiscord
 Wolfenstein Enemy Territory Discord Integration
 
-This script requires cURL. 
+This script requires cURL.
+
+Live preview: https://discord.gg/fDmU78w9
 
 Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
 
@@ -10,7 +12,7 @@ Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
 - Team changes
 - Global chat to Discord
 - Chat commands (NoPrefix and Discord)
-- Level shots are available here: https://healthesquad.com/ET/lvlshots.zip
+- Level screenshots: https://healthesquad.com/ET/lvlshots.zip
 
 ![Monitor Exemple](https://healthesquad.com/ET/exemple.png)
 
