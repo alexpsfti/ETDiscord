@@ -17,7 +17,6 @@ web_mapshots = "https://healthesquad.com/ET/png/" 	-- URL of map png map screens
 webhook_announces = ""	-- Webhook URL channel for announces (ex: "https://discord.com/api/webhooks/blablablabla/1234567894564545")
 webhook_monitor = ""	-- Webhook URL channel for monitoring (ex: "https://discord.com/api/webhooks/blablablabla/1234567894564545")
 
--- Discord AntiSpamm
 mention = ""			-- Role to mention (ex: "<@&1042049815611983104>")
 
 -- ET countries --
@@ -676,25 +675,25 @@ function et_ClientSpawn(_clientNum, revived, teamChange)
 		et.trap_SendConsoleCommand( et.EXEC_APPEND, "set "..clientname.." "..team.."" )	---#Fixme--- because lua cvar can't be unset.
 	end
 end
-
+					
 -- Send Global chat to Discord--
 function et_ClientCommand( num, cmd )
 if cmd == "say" then
 
-   local msg 	= ""
-   local name 	= et.Q_CleanStr(et.gentity_get(num, "pers.netname"))
-   for i 		= 1, et.trap_Argc() - 1 do
-        msg  	= string.format("%s %s", msg, et.Q_CleanStr(et.trap_Argv( i )))
-		msg 	= string.gsub(msg,[[\u{(%d+)}]],utf8.char)
-		msg 	= string.gsub(msg, "'", "\u{2019}")
-		msg 	= string.gsub(msg, "\\", ".")
+   local msg    = ""
+   local name   = et.Q_CleanStr(et.gentity_get(num, "pers.netname"))
+   for i                = 1, et.trap_Argc() - 1 do
+        msg     = string.format("%s %s", msg, et.Q_CleanStr(et.trap_Argv( i )))
+                msg     = string.gsub(msg,[[\u{(%d+)}]],utf8.char)
+                msg     = string.gsub(msg, "'", "\u{2019}")
+                msg     = string.gsub(msg, "\\", ".")
    end
   io.popen('curl \z
   -H \"Content-Type: application/json\" \z
   -d \'\z
   {\z
-  \"username\": \"'..name..'\", \z
-  \"content\": \"'..msg..'\", \z
+  \"username\": \"ET - '..name..'\", \z
+  \"content\": \"'..msg..'\"\z
   }\' \z
   \"'..webhook_announces..'\"')
   end
