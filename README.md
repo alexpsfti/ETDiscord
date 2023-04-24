@@ -1,5 +1,5 @@
 # ETDiscord
-Wolfenstein Enemy Territory Discord Integration
+Wolfenstein: Enemy Territory server Discord integration.
 
 This script requires cURL.
 
