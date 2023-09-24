@@ -14,7 +14,7 @@ Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
 - Chat commands (NoPrefix and Discord)
 - Level screenshots: https://healthesquad.com/ET/lvlshots.zip
 
-![Monitor Exemple](https://healthesquad.com/ET/exemple.png)
+![Monitor Exemple](https://healthesquad.com/ET/monitor.png)
 
 
 ![Connections/Disconnections Exemple](https://healthesquad.com/ET/exemple2.png)
