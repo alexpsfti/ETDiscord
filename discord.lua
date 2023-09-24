@@ -1,25 +1,27 @@
--- Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
--- Last updated on 04-17-23
+--Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
+--Last updated on 09-24-23
 
--- This script requires cURL--
+--This script requires cURL--
 
 description = "Discord"
-version = "0.9.2"
+version = "0.9.3"
 
 require "io"
 
--- Monitor variables
-serverip = ""						-- IP or domain name to show
-port = ""						-- Port to show
-web_mapshots = "https://healthesquad.com/ET/png/" 	-- URL of map png map screenshots (ex: "https://myserver.com/png/")
+--Monitor 
+show_bots = false					-- Show bots names in monitor ? true/false
+serverip = "123.123.123.123"				-- IP or domain name to show
+port = "27960" 						-- Port to show
+serverFlag = ":flag_fr:" 				-- Server's Discord country flag ex: :flag_fr: for France
+webhook_monitor = ""					-- Webhook for showing up the monitor 
+web_mapshots = "https://healthesquad.com/ET/png/" 	-- Optional -- Web server for map screenhots
+mention = "" 						-- Optional -- , Discord role to mention ex: <@&1234567891011121314>
 
--- Announces variables
-webhook_announces = ""	-- Webhook URL channel for announces (ex: "https://discord.com/api/webhooks/blablablabla/1234567894564545")
-webhook_monitor = ""	-- Webhook URL channel for monitoring (ex: "https://discord.com/api/webhooks/blablablabla/1234567894564545")
+--Announces--
+webhook_announces = ""					-- Webhook for chat, team changes and connections/disconnections
+--
 
-mention = ""			-- Role to mention (ex: "<@&1042049815611983104>")
-
--- ET countries --
+--ET countries--
 countries = {
 [0]=	"Unknown",
 [1]=	"Asia/Pacific Region", 
@@ -276,19 +278,20 @@ countries = {
 [252]=	"Saint Martin",
 [255]=	"Localhost",
 }
+--
 
 -- Discord flags -- 
 flags = {
-[0]		=":united_nations:",
-[1]		=":united_nations:",
-[2]		=":flag_eu:",
-[3]		=":flag_ad:",
-[4]		=":flag_ae:",
-[5]		=":flag-af:",
-[6]		=":flag_ag:",
-[7]		=":flag_ai:",
-[8]		=":flag_al:",
-[9]		=":flag_am:",
+[0]	=":united_nations:",
+[1]	=":united_nations:",
+[2]	=":flag_eu:",
+[3]	=":flag_ad:",
+[4]	=":flag_ae:",
+[5]	=":flag-af:",
+[6]	=":flag_ag:",
+[7]	=":flag_ai:",
+[8]	=":flag_al:",
+[9]	=":flag_am:",
 [10]	=":flag_bq:",
 [11]	=":flag_ao:",
 [12]	=":flag_aq:",
@@ -534,34 +537,89 @@ flags = {
 [252]	=":flag_mf:",
 [255]	=":computer:",
 }
+--
 
--- ET Monitor --	
+--ET Monitor--	
 function et_InitGame()
     et.RegisterModname(description .. " " .. version)
-	
 	local mapname 		= et.trap_Cvar_Get( "mapname" )
 	local mapName 		= mapname:gsub("^%l", string.upper)
 	local servername 	= et.Q_CleanStr(et.trap_Cvar_Get( "sv_hostname" ))
+	local timelimit = et.trap_Cvar_Get("timelimit")
 	
 	if et.GS_WARMUP_COUNTDOWN ~= 1 then
 		return 0
 	else
-	
+		axis = {}
+		allies = {}
+		spec = {}
 		tbl = {}
 		count = 0
+		axis_count = 0
+		allies_count = 0
+		spec_count = 0
 		bot_count=0
 	
 		for i=0, et.trap_Cvar_Get("sv_maxclients") - 1 do
 			if isOmnibot(i) == 1 then bot_count = bot_count+1 end
+
 			local cs = et.trap_GetConfigstring(et.CS_PLAYERS + i)
+			
 			local name = et.Q_CleanStr(et.Info_ValueForKey(cs, "n"))
-			-- local name 		= et.Q_CleanStr(et.Info_ValueForKey(et.trap_GetUserinfo(i), "name"))
-				if name 	~= "" and isOmnibot(i) == 0 then
-				count 		= count+1
-				table.insert(tbl, count, name)
+			local team = et.Q_CleanStr(et.Info_ValueForKey(cs, "t"))
+			local class = et.Q_CleanStr(et.Info_ValueForKey(cs, "c"))
+			local flag	= flags[tonumber(et.Q_CleanStr(et.Info_ValueForKey(cs, "u")))]
+
+			if team 	== 	"1" then team = "AXIS" end
+			if team 	== 	"2" then team = "ALLIES" end
+			
+			if class 	== 	"0" then class = ":military_helmet: - " end -- SOLDIER
+			if class 	== 	"1" then class = ":syringe: - " end -- MEDIC
+			if class 	== 	"2" then class = ":tools: - " end -- ENGIE
+			if class 	== 	"3" then class = ":satellite: - " end -- FIELD OP
+			if class 	== 	"4" then class = ":ninja: - " end -- COVERT OP
+			
+			if team 	== 	"3" then 
+				team = "SPEC"
+				class = ":eyes: - " 
+			end
+
+			if team == "AXIS" and isOmnibot(i) == 1 and show_bots == true then
+				axis_count 	= axis_count+1				
+				table.insert(axis, axis_count, flag.." - "..class.." "..name)
+			end
+
+			if team == "AXIS" and isOmnibot(i) == 0 then
+				axis_count 	= axis_count+1
+				count 		= count+1				
+				table.insert(axis, axis_count, flag.." - "..class.." "..name)
+				table.insert(tbl, count, team.." "..class.." "..name)
+			end
+
+
+			if team == "ALLIES" and isOmnibot(i) == 0 then
+				allies_count = allies_count+1
+				count 		= count+1				
+				table.insert(allies, allies_count, flag.." - "..class.." "..name)
+				table.insert(tbl, count, team.." "..class.." "..name)
+			end
+
+			if team == "ALLIES" and isOmnibot(i) == 1 and show_bots == true then
+				allies_count = allies_count+1				
+				table.insert(allies, allies_count, flag.." - "..class.." "..name)
+			end
+			
+			if team == "SPEC" and isOmnibot(i) == 0 then
+				spec_count 	= spec_count+1
+				count 		= count+1				
+				table.insert(spec, spec_count, flag.." - "..class.." "..name)
+				table.insert(tbl, count, team.." "..class.." "..name)
 			end
 		end
-	
+
+		local axisp			= table.concat(axis, "\\n")
+		local alliesp		= table.concat(allies, "\\n")
+		local specs			= table.concat(spec, "\\n")
 		local maxclients 	= et.trap_Cvar_Get("sv_maxclients")
 		local names 		= table.concat(tbl, "\\n")
 		local players 		= tablelength(tbl)
@@ -575,10 +633,10 @@ function et_InitGame()
 		\"content\": \"'..mention..'\", \z
 		\"embeds\": \z
 		[ { \z
-		\"description\": \":flag_fr: **'..servername..' - '..total..'/'..maxclients..'**\", \z
+		\"description\": \"'..serverFlag..' **'..servername..' - '..total..'/'..maxclients..'**\", \z
 		\"image\":{ \"url\": \"'..web_mapshots..''..mapname..'.png\"}, \z
 		\"color\": 65280, \z
-		\"footer\": { \"text\": \"'..players..' human(s) - '..bot_count..' bot(s)\"}, \z
+		\"footer\": { \"text\": \"'..players..' player(s) - '..bot_count..' bot(s)\\n⏳ '..timelimit..' minutes left \"}, \z
 		\"fields\": \z 
 		[ { \z
 		\"name\": \"IP Address\", \z
@@ -591,13 +649,23 @@ function et_InitGame()
 		\"inline\": \"true\" \z 
 		}, \z	
 		{ \z
-		\"name\": \"Online Players\", \z 
-		\"value\": \"'..names..'\\n + '..bot_count..' bot(s)\", \z 
+		\"name\": \"AXIS\", \z 
+		\"value\": \"'..axisp..'\\n\", \z 
 		\"inline\": \"false\" \z 
-		}, \z	
+		}, \z
+		{ \z
+		\"name\": \"ALLIES\", \z 
+		\"value\": \"'..alliesp..'\\n\", \z 
+		\"inline\": \"false\" \z 
+		}, \z
+		{ \z
+		\"name\": \"SPEC\", \z 
+		\"value\": \"'..specs..'\\n\", \z 
+		\"inline\": \"false\" \z 
+		}, \z		
 		{ \z
 		\"name\": \"Current Map\", \z 
-		\"value\": \"'..mapName..'\", \z 
+		\"value\": \"'..mapName..'", \z 
 		\"inline\": \"false\" \z 
 		} \z
 		] }] }\' \z 
@@ -606,8 +674,10 @@ function et_InitGame()
 		tbl = {}
 	end
 end
+--
 
--- Announce connections --
+
+--Announce connections--
 function et_ClientConnect(_clientNum, firstTime)
 	local clientname 			= et.Q_CleanStr(et.Info_ValueForKey(et.trap_GetUserinfo(_clientNum), "name"))
 	if isOmnibot(_clientNum) 	== 1 or firstTime == 0 then return
@@ -624,8 +694,9 @@ function et_ClientConnect(_clientNum, firstTime)
 		\"'..webhook_announces..'\"')		
 	end
 end
+--
 
--- Announce disconnections --
+--Announce disconnections--
 function et_ClientDisconnect(_clientNum)
 	local clientname 			= et.Q_CleanStr(et.gentity_get(_clientNum ,"pers.netname"))							
 	if isOmnibot(_clientNum) 	== 1 then return
@@ -639,10 +710,11 @@ function et_ClientDisconnect(_clientNum)
 			}\' \z
 			\"'..webhook_announces..'\"')
 		end
-	et.trap_SendConsoleCommand( et.EXEC_APPEND, "unset "..clientname.."" )			-- Clean cvars set by line 669
+	et.trap_SendConsoleCommand( et.EXEC_APPEND, "unset "..clientname.."" )					-- Clean cvars set by line 669
 end
+--
 
--- Announce Team changes--
+--Announce Team changes--
 function et_ClientSpawn(_clientNum, revived, teamChange)
 	if isOmnibot(_clientNum) 	== 1 then return
 	else
@@ -653,7 +725,7 @@ function et_ClientSpawn(_clientNum, revived, teamChange)
 		local test = tonumber(et.trap_Cvar_Get(clientname))
 		local class = et.gentity_get(_clientNum,"sess.latchPlayerType")
 		
-		if team 	==	test then return end					--Check if already announced or not
+		if team 	==	test then return end												--Check if already announced or not(line647)
 		
 		if class 	== 	0 then class = "a Soldier" end
 		if class 	== 	1 then class = "a Medic" end
@@ -671,81 +743,49 @@ function et_ClientSpawn(_clientNum, revived, teamChange)
 		\"content\": \"'..msg..'\"\z
 		}\' \z
 		\"'..webhook_announces..'\"')
---		et.trap_Cvar_Set(clientname, team)						---#Fixme--- Using et.trap_SendConsoleCommand
-		et.trap_SendConsoleCommand( et.EXEC_APPEND, "set "..clientname.." "..team.."" )	---#Fixme--- because lua cvar can't be unset.
+--		et.trap_Cvar_Set(clientname, team)													---#Fixme--- Using et.trap_SendConsoleCommand
+		et.trap_SendConsoleCommand( et.EXEC_APPEND, "set "..clientname.." "..team.."" )		---#Fixme--- because lua cvars can't be unset.
 	end
 end
-					
--- Send Global chat to Discord--
+--
+
+--Send Global chat to Discord--
 function et_ClientCommand( num, cmd )
 if cmd == "say" then
 
-   local msg    = ""
-   local name   = et.Q_CleanStr(et.gentity_get(num, "pers.netname"))
-   for i                = 1, et.trap_Argc() - 1 do
-        msg     = string.format("%s %s", msg, et.Q_CleanStr(et.trap_Argv( i )))
-                msg     = string.gsub(msg,[[\u{(%d+)}]],utf8.char)
-                msg     = string.gsub(msg, "'", "\u{2019}")
-                msg     = string.gsub(msg, "\\", ".")
-   end
+   local msg 	= ""
+   local name 	= et.Q_CleanStr(et.gentity_get(num, "pers.netname"))
+   for i 		= 1, et.trap_Argc() - 1 do
+        msg  	= string.format("%s %s", msg, et.Q_CleanStr(et.trap_Argv( i )))
+		msg 	= string.gsub(msg,[[\u{(%d+)}]],utf8.char)
+		msg 	= string.gsub(msg, "'", "\u{2019}")
+		msg 	= string.gsub(msg, "\\", ".")
+   end	
   io.popen('curl \z
   -H \"Content-Type: application/json\" \z
   -d \'\z
   {\z
   \"username\": \"ET - '..name..'\", \z
-  \"content\": \"'..msg..'\"\z
-  }\' \z
+  \"content\": \"'..msg..'\" }\' \z
   \"'..webhook_announces..'\"')
   end
  end
-
---Discord chat prefix--
-function et_ConsoleCommand(command,message)
-	if et.trap_Argv(0) 	== "disc" then
-		local message 	= et.trap_Argv(1)
-		for _, line in ipairs(split(message, 60)) do
-            et.trap_SendServerCommand(-1, "chat \"^3Discord -^w "..line.."")
-		end
-		return 0
-	end
-
-	if et.trap_Argv(0) 	== "nopref" then
-		local message 	= et.trap_Argv(1)
-		for _, line in ipairs(split(message, 60)) do
-            et.trap_SendServerCommand(-1, "chat \""..line.."\"")
-		end
-		return 0
-	end
-end
-
---Extra Functions--
-function split(str, max_line_length)
-   lines = {}
-   local line
-   str:gsub('(%s*)(%S+)',
-      function(spc, word)
-         if not line or #line + #spc + #word > max_line_length then
-            table.insert(lines, line)
-            line = word
-         else
-            line = line..spc..word
-         end
-      end
-   )
-   table.insert(lines, line)
-   return lines
-end
-
+--
+ 
+--Return lenght of a table--
 function tablelength(T)
   local c = 0
   for _ in pairs(T) do c = c + 1 end
   return c
 end
+--
 
+--Check if player is a bot--
 function isOmnibot(_clientNum)
 local guid = et.Info_ValueForKey(et.trap_GetUserinfo(_clientNum), "cl_guid")
-	if string.match(guid, "OMNIBOT")
-	then return 1
+	if string.match(guid, "OMNIBOT") 
+	then return 1 
 	else return 0
 	end
 end
+--
