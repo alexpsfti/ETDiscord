@@ -3,7 +3,7 @@ Wolfenstein: Enemy Territory server Discord integration.
 
 This script requires cURL.
 
-Live preview: https://discord.gg/fDmU78w9
+Live preview: https://discord.gg/YQ49XHySzD
 
 Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
 
