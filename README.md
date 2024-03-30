@@ -19,7 +19,7 @@ Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
 - Global chat to Discord
 - Level screenshots: https://healthesquad.com/ET/lvlshots.zip
 
-![Monitor Exemple](https://healthesquad.com/ET/monitor.png)
+![Monitor Exemple](http://xelattack.free.fr/ET/monitor.png)
 
 
-![Connections/Disconnections Exemple](https://healthesquad.com/ET/exemple2.png)
+![Connections/Disconnections Exemple](http://xelattack.free.fr/ET/exemple2.png)
