@@ -1,4 +1,4 @@
---Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
+--Tested on Debian LTS 10 x64 - ET:Legacy 2.82.0
 --Last updated on 09-24-23
 
 --This script requires cURL--
@@ -14,7 +14,7 @@ serverip = "123.123.123.123"				-- IP or domain name to show
 port = "27960" 						-- Port to show
 serverFlag = ":flag_fr:" 				-- Server's Discord country flag ex: :flag_fr: for France
 webhook_monitor = ""					-- Webhook for showing up the monitor 
-web_mapshots = "https://healthesquad.com/ET/png/" 	-- Optional -- Web server for map screenhots
+web_mapshots = "http://xelattack.free.fr/ET/png/" 	-- Optional -- Web server for map screenhots
 mention = "" 						-- Optional -- , Discord role to mention ex: <@&1234567891011121314>
 
 --Announces--
