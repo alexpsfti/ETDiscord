@@ -17,7 +17,7 @@ Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
 - Connections/Disconnections
 - Team changes
 - Global chat to Discord
-- Level screenshots: https://healthesquad.com/ET/lvlshots.zip
+- Level screenshots: htts://xelattack.free.fr/ET/lvlshots.zip
 
 ![Monitor Exemple](http://xelattack.free.fr/ET/monitor.png)
 
