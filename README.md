@@ -5,7 +5,7 @@ This script requires cURL.
 
 Live preview: https://discord.gg/YQ49XHySzD
 
-Tested on Debian LTS 10 x64 - ET:Legacy 2.81.1
+Tested on Debian LTS 10 x64 - ET:Legacy 2.82.0
 
 - ET Monitor pushed every map (ignores bots-only sessions)
 - Option to show up bots
