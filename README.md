@@ -1,11 +1,12 @@
 # ETDiscord
-Wolfenstein: Enemy Territory server Discord integration.
+Enemy Territory: Legacy server Discord integration.
 
-This script requires cURL.
+This script requires cURL and a LUA intepreter supporting popen function.
 
 Live preview: https://discord.gg/YQ49XHySzD
 
-Tested on Debian LTS 10 x64 - ET:Legacy 2.82.0
+Tested on Debian LTS 10 x64 - ET:Legacy 2.82.1
+Doesn't work on etpub, silent, nitmod. (popen not supported) 
 
 - ET Monitor pushed every map (ignores bots-only sessions)
 - Option to show up bots
