@@ -9,16 +9,16 @@ version = "0.1.1"
 require "io"
 
 --Monitor 
-show_bots = false					                          -- Show bots names in monitor ? true/false
+show_bots = false					    -- Show bots names in monitor ? true/false
 serverip = "123.123.123.123"		                    -- IP or domain name to show
-port = "27960" 						                          -- Port to show
-serverFlag = ":flag_fr:" 			                      -- Server's Discord country flag ex: :flag_fr: for France
-webhook_monitor = ""				                        -- Webhook for showing up the monitor 
-web_mapshots = "http://xelattack.free.fr/ET/png/" 	-- Optional -- Web server for map screenhots
-mention = "" 						                            -- Optional -- , Discord role to mention ex: <@&1234567891011121314>
+port = "27960" 						    -- Port to show
+serverFlag = ":flag_fr:" 			            -- Server's Discord country flag ex: :flag_fr: for France
+webhook_monitor = ""				            -- Webhook for showing up the monitor 
+web_mapshots = "http://xelattack.free.fr/ET/png/"	    -- Optional -- Web server for map screenhots
+mention = "" 						    -- Optional -- , Discord role to mention ex: <@&1234567891011121314>
 
 --Announces--
-webhook_announces = ""				                      -- Webhook for chat, team changes and connections/disconnections
+webhook_announces = ""				            -- Webhook for chat, team changes and connections/disconnections
 --
 
 --ET countries--
