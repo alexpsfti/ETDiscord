@@ -586,7 +586,7 @@ function et_InitGame()
 
 			if team == "AXIS" and isOmnibot(i) == 1 and show_bots == true then
 				axis_count 	= axis_count+1				
-				table.insert(axis, axis_count, flag.." - "..class.." "..name)
+				table.insert(axis, axis_count, ":computer: - "..class.." "..name)
 			end
 
 			if team == "AXIS" and isOmnibot(i) == 0 then
@@ -606,7 +606,7 @@ function et_InitGame()
 
 			if team == "ALLIES" and isOmnibot(i) == 1 and show_bots == true then
 				allies_count = allies_count+1				
-				table.insert(allies, allies_count, flag.." - "..class.." "..name)
+				table.insert(allies, allies_count, ":computer: - "..class.." "..name)
 			end
 			
 			if team == "SPEC" and isOmnibot(i) == 0 then
