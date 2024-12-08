@@ -7,7 +7,7 @@ Live preview: https://discord.gg/YQ49XHySzD
 
 My Discord profile: https://discord.com/users/589670337151500308/ if you need support.
 
-Tested on Debian LTS 10 x64 - ET:Legacy 2.83.1
+Tested on Debian LTS 10 x64 - & Windows 11 24H2 - ET:Legacy 2.83.1 
 Doesn't work on etpub, silent, nitmod. (popen not supported) 
 
 - ET Monitor pushed every map (ignores bots-only sessions)
