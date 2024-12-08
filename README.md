@@ -5,7 +5,7 @@ This script requires cURL and a LUA intepreter supporting popen function.
 
 Live preview: https://discord.gg/YQ49XHySzD
 
-Tested on Debian LTS 10 x64 - ET:Legacy 2.82.1
+Tested on Debian LTS 10 x64 - ET:Legacy 2.83.1
 Doesn't work on etpub, silent, nitmod. (popen not supported) 
 
 - ET Monitor pushed every map (ignores bots-only sessions)
@@ -18,6 +18,7 @@ Doesn't work on etpub, silent, nitmod. (popen not supported)
 - Connections/Disconnections
 - Team changes
 - Global chat to Discord
+- Windows support
 - Level screenshots: http://xelattack.free.fr/ET/lvlshots.zip
 
 ![Monitor Exemple](http://xelattack.free.fr/ET/monitor.png)
