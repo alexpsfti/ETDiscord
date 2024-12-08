@@ -1,10 +1,10 @@
---Tested on Debian LTS 10 x64 - ET:Legacy 2.82.0
---Last updated on 09-24-23
+--Tested on Debian LTS 10 x64 - ET:Legacy 2.83.1
+--Last updated on 12-08-24
 
 --This script requires cURL--
 
 description = "Discord"
-version = "0.9.3"
+version = "0.1.0"
 
 require "io"
 
